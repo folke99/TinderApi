@@ -7,8 +7,8 @@ class Matches:
     
     def get_matches(self, count=100, with_messages=False) -> list:
         matches = []
-        res = self.api.s.get(f"/matches", 2, params=f"?locale={self.api.locale}&count={count}&message={'0' if not with_messages else '1'}&is_tinder_u=false")
-        matches = self.api.util.parseUsers(res["data"]["matches"])
+        res = self.s.get(f"/matches", 2, params=f"?locale={self.locale}&count={count}&message={'0' if not with_messages else '1'}&is_tinder_u=false")
+        matches = self.util.parseUsers(res["data"]["matches"])
         return matches
 
     def get_all_matches(self, pageToken=None, with_messages=False):

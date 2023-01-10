@@ -3,13 +3,15 @@ from ..exceptions import *
 
 
 
+
 class Swipe:
     def __init__(self, api):
         self.api = api
+
         
     def get_users(self) -> list:
-        res = self.api.s.get("/recs/core", 2)
-        return self.api.util.parseSwipes(res["data"]["results"])
+        res = self.s.get("/recs/core", 2)
+        return self.util.parseSwipes(res["data"]["results"])
 
     def like_user(self, user_id, super_like=False) -> dict:
         ep = "/like/"+user_id
