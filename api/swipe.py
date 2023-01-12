@@ -8,7 +8,7 @@ class Swipe:
     def __init__(self, api):
         self.api = api
 
-        
+
     def get_users(self) -> list:
         res = self.s.get("/recs/core", 2)
         return self.util.parseSwipes(res["data"]["results"])
