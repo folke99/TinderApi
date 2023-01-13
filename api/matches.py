@@ -61,14 +61,16 @@ class Matches:
         return messages
 
     # if this worked it would be better, might look in to
-    def get_messagesINACTIVE(self, match_id, count="100") -> list:
-        res = self.api.s.get(f"/matches/{match_id}/messages", 2, params=f"?count={count}")
+    def get_messages(self, match_id, count="100") -> list:
+        res = self.api.s.get(f"/matches/{match_id}/messages", 2, params={"count": count})
+        #print("FROM GET MESSAGE :  ", res)
         if 'data' not in res:
             raise InvalidMatchId
+
         return res["data"]["messages"]
 
     # doing it like this is very computationally demanding, but works
-    def get_messages(self, match_id: str, count: str = "100") -> list:
+    def get_messagesINACTIVE(self, match_id: str, count: str = "100") -> list:
         matches = self.get_all_matches(self, with_messages=True)
         for match in matches:
             if match["match_id"] == match_id:
@@ -98,12 +100,12 @@ class Matches:
             payload["contact_type"] = contact_type
             payload["type"] = "contact_card"
         try:
-            res = self.api.s.post(f"/user/matches/{match_id}", 1, data=payload)
+            res = self.s.post(f"/user/matches/{match_id}", 1, data=payload)
         except:
-            self.api.debugger.Log("Failed to send message to "+match_id)
+            self.debugger.Log("Failed to send message to "+match_id)
             raise TinderMatchNotFound
         if 'sent_date' in res:
-            self.api.debugger.Log("Successfully sent a message to "+match_id)
+            self.debugger.Log("Successfully sent a message to "+match_id)
             return res
         else:
             self.api.debugger.Log("Failed to send message to "+match_id)
